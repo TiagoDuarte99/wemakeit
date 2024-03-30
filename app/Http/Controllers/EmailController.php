@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class EmailController extends Controller
 {
 
   public function send(Request $request)
   {
-
+    LOG::info($request);
         $rules = [
           'name' => 'required|string',
           'email' => 'required|email',

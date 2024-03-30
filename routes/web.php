@@ -16,6 +16,19 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 
+$router->get('/', function () use ($router) {
+    if (extension_loaded('imagick')) {
+        echo 'Extensão Imagick está carregada.';
+    } else {
+        echo 'Extensão Imagick não está carregada.';
+    }
+    if (class_exists('Imagick')) {
+        echo 'Classe Imagick está disponível.';
+    } else {
+        echo 'Classe Imagick não está disponível.';
+    }
+    return 'Bem-vindo à minha API!';
+});
 
 $router->group(['prefix' => 'auths'], function () use ($router) {
     $router->post('login', 'AuthController@login');
@@ -44,10 +57,10 @@ $router->group(['prefix' => 'pages', 'middleware' => 'auth'], function () use ($
     /* $router->delete('/{id}', 'PagesController@delete'); */
 });
 
-$router->group(['prefix' => 'upload', 'middleware' => 'auth'], function () use ($router) {
+$router->group(['prefix' => 'upload', 'middleware' => ['auth'/* , 'process.image' */]], function () use ($router) {
     $router->post('', 'UploadController@upload');
 });
 
-$router->group(['prefix' => 'sendEmail'], function () use ($router) {
+$router->group(['prefix' => 'sendEmail', 'middleware' => 'recaptcha'], function () use ($router) {
     $router->post('', 'EmailController@send');
 });

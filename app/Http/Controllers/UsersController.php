@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-
 class UsersController extends Controller
 {
   /**
@@ -34,12 +33,11 @@ class UsersController extends Controller
     ]);
 
     $name = $request->input('name');
+
     $password = Hash::make($request->input('password'));
 
-    // Crie o usuário apenas se as validações passarem
     $user = User::create(['name' => $name, 'password' => $password]);
 
-    // Remova a senha do array antes de enviar a resposta
     $userWithoutPassword = $user->makeHidden(['password']);
 
     return response()->json(['status' => 'success', 'operation' => 'created', 'user' => $userWithoutPassword]);
@@ -50,13 +48,11 @@ class UsersController extends Controller
   public function update(Request $request, $id)
   {
 
-      // Custom validation rules
       $validator = Validator::make($request->all(), [
           'name' => ['sometimes', 'required', Rule::unique('users')->ignore($id)],
           'password' => 'sometimes|required|confirmed',
       ]);
   
-      // Check for validation errors
       if ($validator->fails()) {
           return response()->json(['status' => 'error', 'error' => $validator->errors()->first()], 422);
       }
@@ -67,13 +63,11 @@ class UsersController extends Controller
           return response()->json(['status' => 'error', 'error' => 'User not found'], 404);
       }
   
-      // Check if the authenticated user is the owner or has ID 1
       $authenticatedUser = Auth::user();
       if ($authenticatedUser->id !== $user->id && $authenticatedUser->id !== 1) {
           return response()->json(['status' => 'error', 'error' => 'Not authorized to edit this user'], 403);
       }
   
-      // Update only the fields sent in the request
       if ($request->has('name')) {
           $user->name = $request->input('name');
       }
@@ -84,7 +78,6 @@ class UsersController extends Controller
   
       $user->save();
   
-      // Remove the password from the array before sending the response
       $userWithoutPassword = $user->makeHidden(['password']);
   
       return response()->json(['status' => 'success', 'message' => 'User successfully updated.', 'user' => $userWithoutPassword]);

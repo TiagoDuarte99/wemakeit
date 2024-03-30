@@ -7,7 +7,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 ))->bootstrap();
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -59,6 +58,19 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+
+/*
+|--------------------------------------------------------------------------
+| Register Image Manager
+|--------------------------------------------------------------------------
+|
+| Registre o Image Manager aqui para que ele possa ser usado em todo o aplicativo.
+| Escolha um dos métodos de construtor disponíveis para criar a instância do Image Manager.
+| Aqui estamos usando o construtor regular para criar uma instância com o driver Imagick.
+|
+*/
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Config Files
@@ -86,12 +98,20 @@ $app->configure('auth');
 */
 
  $app->middleware([
-    App\Http\Middleware\CorsMiddleware::class
+    App\Http\Middleware\CorsMiddleware::class,
 ]);
+
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'recaptcha' => App\Http\Middleware\RecaptchaMiddleware::class,
+  /*   'process.image' => \App\Http\Middleware\ProcessImageMiddleware::class, */
 ]);
+
+/* $app->middleware([
+    // Outros middlewares...
+    App\Http\Middleware\Webp::class,
+]); */
 
 
 /*
@@ -106,6 +126,7 @@ $app->routeMiddleware([
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
+
 
 if (! function_exists('public_path')) {
     /**
