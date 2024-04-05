@@ -54,7 +54,7 @@ $router->group(['prefix' => 'users', 'middleware' => 'auth'], function () use ($
 $router->group(['prefix' => 'pages', 'middleware' => 'auth'], function () use ($router) {
     $router->post('insert', 'PagesController@insertPageData');
     $router->put('/{namePage}/{section}', 'PagesController@updatePage'); 
-    /* $router->delete('/{id}', 'PagesController@delete'); */
+    $router->delete('/{namePage}', 'PagesController@deletePage');
 });
 
 $router->group(['prefix' => 'upload', 'middleware' => ['auth'/* , 'process.image' */]], function () use ($router) {

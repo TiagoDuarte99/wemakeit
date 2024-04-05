@@ -80,4 +80,24 @@ class PagesController extends Controller
       return response()->json(['success' => false, 'message' => 'Registro não encontrado'], 404);
     }
   }
+
+  public function deletePage(Request $request, $namePage)
+  {
+      $pages = Pages::where('namePage', $namePage)->get();
+  
+      if ($pages->isNotEmpty()) {
+          // Exclui cada página com o nome fornecido
+          foreach ($pages as $page) {
+              $page->delete();
+          }
+  
+          // Remove os dados relacionados ao cache
+          $cacheKey = 'page_data_' . $namePage;
+          Cache::forget($cacheKey);
+  
+          return response()->json(['success' => true, 'message' => 'Páginas excluídas com sucesso']);
+      } else {
+          return response()->json(['success' => false, 'message' => 'Nenhuma página encontrada com o nome especificado'], 404);
+      }
+  }
 }
