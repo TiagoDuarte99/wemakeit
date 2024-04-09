@@ -55,7 +55,7 @@ $router->group(['prefix' => 'pages', 'middleware' => 'auth'], function () use ($
     $router->post('insert', 'PagesController@insertPageData');
     $router->put('/{namePage}/{section}', 'PagesController@updatePage'); 
     $router->delete('/{namePage}', 'PagesController@deletePage');
-    $router->delete('/{namePage}/{section}', 'PagesController@deletePage');
+    $router->delete('/{namePage}/{section}', 'PagesController@deleteSection');
 
 });
 

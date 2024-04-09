@@ -102,18 +102,20 @@ class PagesController extends Controller
   }
 
   public function deleteSection(Request $request, $namePage, $section)
-{
-    $page = Pages::where(['namePage' => $namePage, 'section' => $section])->first();
-
-    if ($page) {
-        $page->delete();
-
-        $cacheKey = 'page_data_' . $namePage;
-        Cache::forget($cacheKey);
-
-        return response()->json(['success' => true, 'message' => 'Seção excluída com sucesso']);
-    } else {
-        return response()->json(['success' => false, 'message' => 'Seção não encontrada'], 404);
-    }
-}
+  {
+      $page = Pages::where(['namePage' => $namePage, 'section' => $section])->first();
+  
+      if ($page) {
+          // Exclui apenas a seção específica
+          $page->where('section', $section)->delete();
+  
+          $cacheKey = 'page_data_' . $namePage;
+          Cache::forget($cacheKey);
+  
+          return response()->json(['success' => true, 'message' => 'Seção excluída com sucesso']);
+      } else {
+          return response()->json(['success' => false, 'message' => 'Seção não encontrada'], 404);
+      }
+  }
+  
 }
