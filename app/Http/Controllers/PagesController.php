@@ -100,4 +100,20 @@ class PagesController extends Controller
           return response()->json(['success' => false, 'message' => 'Nenhuma página encontrada com o nome especificado'], 404);
       }
   }
+
+  public function deleteSection(Request $request, $namePage, $section)
+{
+    $page = Pages::where(['namePage' => $namePage, 'section' => $section])->first();
+
+    if ($page) {
+        $page->delete();
+
+        $cacheKey = 'page_data_' . $namePage;
+        Cache::forget($cacheKey);
+
+        return response()->json(['success' => true, 'message' => 'Seção excluída com sucesso']);
+    } else {
+        return response()->json(['success' => false, 'message' => 'Seção não encontrada'], 404);
+    }
+}
 }
