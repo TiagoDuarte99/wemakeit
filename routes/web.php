@@ -17,7 +17,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 
 $router->get('/', function () use ($router) {
-    if (extension_loaded('imagick')) {
+/*     if (extension_loaded('imagick')) {
         echo 'Extensão Imagick está carregada.';
     } else {
         echo 'Extensão Imagick não está carregada.';
@@ -26,8 +26,8 @@ $router->get('/', function () use ($router) {
         echo 'Classe Imagick está disponível.';
     } else {
         echo 'Classe Imagick não está disponível.';
-    }
-    return 'Bem-vindo à minha API!';
+    } */
+    return app()->version();
 });
 
 $router->group(['prefix' => 'auths'], function () use ($router) {

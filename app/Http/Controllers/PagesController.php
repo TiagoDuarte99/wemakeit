@@ -45,7 +45,7 @@ class PagesController extends Controller
     $validator = Validator::make($request->all(), [
       'namePage' => 'required|string',
       'section' => 'required|string',
-      'content' => 'required|array', // Alterado de 'json' para 'array'
+      'content' => 'required|array',
     ]);
 
     if ($validator->fails()) {
