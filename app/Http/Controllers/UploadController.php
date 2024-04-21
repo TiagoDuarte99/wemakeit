@@ -10,8 +10,7 @@ class UploadController extends Controller
 {
     public function upload(Request $request)
     {
-        $pageName = $request->pageName;
-        $path = substr($pageName, 0, strrpos($pageName, 'Pt') ?: strrpos($pageName, 'Es'));
+        $path =  $request->pageName;
 
         $uploadDirectory = public_path(env('UPLOADS_DIRECTORY') . '/' . $path);
         if (!file_exists($uploadDirectory)) {
