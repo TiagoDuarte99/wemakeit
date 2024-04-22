@@ -25,10 +25,10 @@ class UploadController extends Controller
         $fileName =  $file->getClientOriginalName();
         $originalPath = $uploadDirectory . '/' . $fileName;
         $fileExtension = $request->file('file')->getClientOriginalExtension();
-
         if (file_exists($originalPath)) {
             // O arquivo já existe
             if ($fileExtension === 'gif' || $fileExtension === 'svg') {
+                
                 $urlOriginal = url(env('UPLOADS_DIRECTORY') . '/' . $path . '/' . $fileName);
                 return response()->json([
                     'success' => true,
@@ -36,21 +36,22 @@ class UploadController extends Controller
                     'url' => $urlOriginal,
                 ]);
             } else {
+                
                 $urlOriginal = url(env('UPLOADS_DIRECTORY') . '/' . $path . '/' . $fileName);
 
                 $webpFileName800 = pathinfo($fileName, PATHINFO_FILENAME) . '-800.webp';
                 $webpFileName480 = pathinfo($fileName, PATHINFO_FILENAME) . '-480.webp';
                 $webpFileName320 = pathinfo($fileName, PATHINFO_FILENAME) . '-320.webp';
 
-                $urlWebp800 = file_exists(public_path(env('UPLOADS_DIRECTORY')) . '/' . $webpFileName800) ?
+                $urlWebp800 = file_exists(public_path(env('UPLOADS_DIRECTORY')) . '/' . $path . '/' . $webpFileName800) ?
                     url(env('UPLOADS_DIRECTORY') . '/' . $path . '/' . $webpFileName800) : null;
-
-                $urlWebp480 = file_exists(public_path(env('UPLOADS_DIRECTORY')) . '/' . $webpFileName480) ?
+                    log::info($urlWebp800);
+                $urlWebp480 = file_exists(public_path(env('UPLOADS_DIRECTORY')) . '/' . $path . '/' . $webpFileName480) ?
                     url(env('UPLOADS_DIRECTORY') . '/' . $path . '/' . $webpFileName480) : null;
-
-                $urlWebp320 = file_exists(public_path(env('UPLOADS_DIRECTORY')) . '/' . $webpFileName320) ?
+                    log::info($urlWebp480);
+                $urlWebp320 = file_exists(public_path(env('UPLOADS_DIRECTORY')) . '/' . $path . '/' . $webpFileName320) ?
                     url(env('UPLOADS_DIRECTORY') . '/' . $path . '/' . $webpFileName320) : null;
-
+                    log::info($urlWebp320);
                 if ($urlWebp800 && $urlWebp480 && $urlWebp320) {
                     return response()->json([
                         'success' => true,
