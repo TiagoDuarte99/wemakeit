@@ -90,10 +90,11 @@ class EmailController extends Controller
       "politics" => $request->input('politics'),
     ];
 
+    $page = $request->input('page');
 
-    Mail::send('mail', $data, function ($message) use ($data) {
+    Mail::send('mail', $data, function ($message) use ($data, $page) {
       $message->to($data['email'], $data['name'])
-        ->subject('Email from Quiosque');
+        ->subject("Email from $page");
       $message->from('tiago_duarte99@hotmail.com', 'your Name');
     });
 
