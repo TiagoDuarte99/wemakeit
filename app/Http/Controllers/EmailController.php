@@ -95,7 +95,7 @@ class EmailController extends Controller
     Mail::send('mail', $data, function ($message) use ($data, $page) {
       $message->to($data['email'], $data['name'])
         ->subject("Email from $page");
-      $message->from('tiago_duarte99@hotmail.com', 'your Name');
+      $message->from(env('MAIL_FROM_ADDRESS'), 'your Name');
     });
 
     if($request->input('valueLang') === 'pt'){
