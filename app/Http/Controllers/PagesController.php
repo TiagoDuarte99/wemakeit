@@ -81,7 +81,7 @@ class PagesController extends Controller
     }
   }
 
-  public function deletePage(Request $request, $namePage)
+  public function deletePage($namePage)
   {
       $pages = Pages::where('namePage', $namePage)->get();
   
@@ -101,13 +101,12 @@ class PagesController extends Controller
       }
   }
 
-  public function deleteSection(Request $request, $namePage, $section)
+  public function deleteSection($namePage, $section)
   {
       $page = Pages::where(['namePage' => $namePage, 'section' => $section])->first();
   
       if ($page) {
-          // Exclui apenas a seção específica
-          $page->where('section', $section)->delete();
+          $page->delete();
   
           $cacheKey = 'page_data_' . $namePage;
           Cache::forget($cacheKey);
