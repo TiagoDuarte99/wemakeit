@@ -85,7 +85,7 @@ class UploadController extends Controller
                 $imageWidth = $imageSize[0];
 
 
-                if ($imageWidth < 300) {
+                if ($imageWidth < 330) {
                     $webpFileName = pathinfo($fileName, PATHINFO_FILENAME) . '.webp';
                     $webpPath = public_path(env('UPLOADS_DIRECTORY')) . '/' . $path . '/' . $webpFileName;
                     $imagick = new Imagick($originalPath);
