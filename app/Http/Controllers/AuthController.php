@@ -52,11 +52,12 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-/*     public function refresh()
+    public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        $newToken = JWTAuth::parseToken()->refresh();
+        return $this->respondWithToken($newToken);
     }
- */
+
     /**
      * Get the token array structure.
      *
@@ -66,11 +67,12 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        $ttlInMinutes = JWTAuth::factory()->getTTL();
+        $ttlInMinutes = JWTAuth::factory()->getTTL() * 10;
     
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'expires_in' => $ttlInMinutes * 60
         ]);
     }
 }

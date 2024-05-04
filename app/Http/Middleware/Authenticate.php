@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
+
 class Authenticate
 {
     /**
@@ -35,6 +36,7 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
+
         if ($this->auth->guard($guard)->guest()) {
             return response('Unauthorized.', 401);
         }

@@ -41,6 +41,7 @@ $router->group(['prefix' => 'pages'], function () use ($router) {
 $router->group(['prefix' => 'auths', 'middleware' => 'auth'], function () use ($router) {
     $router->get('me', 'AuthController@me'); // retorna o utilizador com o login efectuado
     $router->get('logout', 'AuthController@logout'); // faz logout
+    $router->post('refresh', 'AuthController@refresh');
 });
 
 
@@ -59,7 +60,7 @@ $router->group(['prefix' => 'pages', 'middleware' => 'auth'], function () use ($
 
 });
 
-$router->group(['prefix' => 'upload', 'middleware' => ['auth'/* , 'process.image' */]], function () use ($router) {
+$router->group(['prefix' => 'upload', 'middleware' => ['auth']], function () use ($router) {
     $router->post('', 'UploadController@upload');
 });
 
