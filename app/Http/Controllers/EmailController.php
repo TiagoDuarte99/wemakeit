@@ -22,7 +22,7 @@ class EmailController extends Controller
           'message' => 'required|string',
           'politics' => 'required|boolean',
       ];
-  
+      
       $messagesPT = [
         'name.required' => 'O campo nome é obrigatório.',
         'name.string' => 'O campo nome deve ser uma string.',

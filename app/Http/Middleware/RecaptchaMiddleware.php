@@ -17,8 +17,9 @@ class RecaptchaMiddleware
             'response' => $request->input('recaptchaToken'),
             'remoteip' => $request->ip(),
         ]);
-
+        error_log(print_r($response, true));
         if ($response->failed() || !$response['success']) {
+            error_log(print_r('success', true));
             return response()->json(['success' => false, 'message' => 'Falha na verificação reCAPTCHA'], 422);
         }
         

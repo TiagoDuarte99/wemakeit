@@ -11,7 +11,7 @@ class UploadController extends Controller
     public function upload(Request $request)
     {
         $path =  $request->pageName;
-
+        error_log(print_r($path, true));
         $uploadDirectory = public_path(env('UPLOADS_DIRECTORY') . '/' . $path);
         if (!file_exists($uploadDirectory)) {
             mkdir($uploadDirectory, 0755, true);

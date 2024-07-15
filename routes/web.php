@@ -34,10 +34,6 @@ $router->group(['prefix' => 'auths'], function () use ($router) {
     $router->post('login', 'AuthController@login');
 });
 
-$router->group(['prefix' => 'pages'], function () use ($router) {
-    $router->get('{namePage}', 'PagesController@getPageData');
-});
-
 $router->group(['prefix' => 'auths', 'middleware' => 'auth'], function () use ($router) {
     $router->get('me', 'AuthController@me'); // retorna o utilizador com o login efectuado
     $router->get('logout', 'AuthController@logout'); // faz logout
@@ -53,11 +49,15 @@ $router->group(['prefix' => 'users', 'middleware' => 'auth'], function () use ($
 });
 
 $router->group(['prefix' => 'pages', 'middleware' => 'auth'], function () use ($router) {
+    $router->get('getNamePages', 'PagesController@getAllNamePages');
     $router->post('insert', 'PagesController@insertPageData');
     $router->put('/{namePage}/{section}', 'PagesController@updatePage'); 
     $router->delete('/{namePage}', 'PagesController@deletePage');
     $router->delete('/{namePage}/{section}', 'PagesController@deleteSection');
+});
 
+$router->group(['prefix' => 'pages'], function () use ($router) {
+    $router->get('{namePage}', 'PagesController@getPageData');
 });
 
 $router->group(['prefix' => 'upload', 'middleware' => ['auth']], function () use ($router) {

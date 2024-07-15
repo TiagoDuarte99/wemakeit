@@ -19,7 +19,7 @@ class Pages extends Model
      * @var array
      */
     protected $fillable = [
-        'namePage', 'section', 'content',
+        'namePage', 'section', 'content', 'title', 'description', 'metaTitle', 'contentPoints'
     ];
 
     /**
